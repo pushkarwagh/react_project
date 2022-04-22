@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
-import { GrEdit } from "react-icons/gr";
-import { MdDelete } from "react-icons/md";
+import { MdAccountBox, MdDelete } from "react-icons/md";
 
-import { getAll } from "../operation/operations";
+import { getAll, deleteUser } from "../operation/operations";
 
 function Home() {
   const users = useSelector((state) => state.get.users);
   const dispatch = useDispatch();
+  
   const neUser = Array.from(users);
   console.log("array", neUser);
 
@@ -17,6 +16,13 @@ function Home() {
     console.log("home-state", users);
     //localStorage.clear('token')
   }, [users]);
+
+  const deleteUserAccount = async (id) => {
+    const res = await dispatch(deleteUser(id))
+    if(res.delete) {
+      alert("user-deleted successfully");
+    }
+  }
 
   return (
     <>
@@ -44,7 +50,6 @@ function Home() {
                 <th scope="col">Name</th>
                 <th scope="col-2">email</th>
                 <th scope="col">Actons</th>
-                <th scope="col">Button</th>
               </tr>
             </thead>
             <tbody>
@@ -54,13 +59,7 @@ function Home() {
                     <td>{user._id}</td>
 
                     <td>
-                      <Link
-                        to={{ pathname: `/viewUser/${user.id}` }}
-                        state={user}
-                        //onClick={ () => handleView(user) }
-                      >
-                        {user.name}
-                      </Link>
+                        <MdAccountBox/>{user.name}
                     </td>
 
                     <td>
@@ -68,31 +67,12 @@ function Home() {
                     </td>
 
                     <td>
-                      <Link
-                        to={{
-                          pathname: `/editUser/${user.id}`,
-                          state: { data: user },
-                        }}
-                      >
-                        <GrEdit
-                          className="mx-2 "
-                          //onClick={() => dispatch(EditUser(user)) }
-                        />
-                      </Link>
-
-                      <MdDelete
-                        className="mx-2 text-danger"
-                        //onClick={ () => dispatch(DeleteUser(user.id)) }
-                      />
-                    </td>
-
-                    <td>
                       <button
                         className="btn btn-danger"
-                        onClick={() => localStorage.removeItem(`token_id-${user._id}`)}
+                        onClick={()=> deleteUserAccount(user.id) }
                       >
                         {" "}
-                        Delete_Token
+                        <MdDelete/>Account
                       </button>
                     </td>
                   </tr>

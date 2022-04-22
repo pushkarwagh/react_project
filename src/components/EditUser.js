@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-import { FaUserPlus } from "react-icons/fa";
+import { FaBackward, FaUserCircle, FaUserEdit } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { register } from "../operation/operations";
+import { getAll, editUser } from "../operation/operations";
 
-function Register() {
-  const navigate = useNavigate();
+function EditUser() {
+  const prevUser = useLocation();
   const dispatch = useDispatch();
-  
+  const navigate = useNavigate();
+
+  const { _id, name, email } = prevUser.state.data;
   const [user, setUser] = useState({
-    name: "",
-    email: "",
+    _id: _id,
+    name: name,
+    email: email,
     password: "",
   });
 
@@ -19,14 +22,19 @@ function Register() {
     e.preventDefault();
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-    console.log("register_onchange-->", user);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const res = await dispatch(register(user));
-    if (res.register) {
-      navigate("/login")
+    if(user.name === "") {
+    alert ("name cannot be empty")
+    return {edit:false};      
+    }
+
+    const res = await dispatch(editUser(user));
+    if (res.edit) {
+      dispatch(getAll())
+      navigate("/user");
       setUser({
         name: "",
         email: "",
@@ -36,10 +44,16 @@ function Register() {
   };
 
   return (
-    <div className="container my-2 border p-2">
-      <div className="header text-center text-secondary"> Register_User </div>
-      <form className="form-wrapper w-50 my-2 m-auto " onSubmit={onSubmit}>
-        <div className="name p-1">
+    <div className="container bg-light p-2">
+      <h3 className="text-center ">
+        <FaUserCircle /> {name}
+      </h3>
+
+      <form
+        className="form-wrapper my-3 p-4 w-50 m-auto border border-success rounded"
+        onSubmit={onSubmit}
+      >
+        <div className="name p-2">
           <div className="label">
             <label>Name:</label>
           </div>
@@ -53,7 +67,7 @@ function Register() {
           />
         </div>
 
-        <div className="email p-1">
+        <div className="email p-2">
           <div className="label">
             <label>Email:</label>
           </div>
@@ -63,13 +77,13 @@ function Register() {
             placeholder="Email"
             name="email"
             value={user.email}
-            onChange={onChange}
+            disabled
           />
         </div>
 
-        <div className="password p-1">
+        <div className="new-password p-2">
           <div className="label">
-            <label>Password:</label>
+            <label>New-Password:</label>
           </div>
           <input
             className="input"
@@ -80,32 +94,21 @@ function Register() {
             onChange={onChange}
           />
         </div>
-        <div className="button my-2 p-1">
-          <button
-            className="submit btn-warning"
-            type="submit"
-            // onClick={() => onSubmit(user)}
-          >
-            <FaUserPlus /> Register
-          </button>
-        </div>
 
-        <div className="para p-2">
-          <p>
-            {" "}
-            Have an account? then
-            <Link
-              to="/login"
-              className="text-blue ms-1"
-              style={{ textDecoration: "none" }}
-            >
-              Log_IN
-            </Link>
-          </p>
+        <div className="button my-2 p-2">
+          <Link to="/user">
+            <button className="btn-danger me-2 rounded" type="button">
+              <FaBackward /> Back
+            </button>
+          </Link>
+
+          <button className="submit btn-warning rounded" type="submit">
+            <FaUserEdit /> Update
+          </button>
         </div>
       </form>
     </div>
   );
 }
 
-export default Register;
+export default EditUser;

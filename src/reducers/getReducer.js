@@ -1,9 +1,9 @@
-import { GET_REQUEST, GET_SUCCESS, GET_ERROR } from '../actions/actionTypes';
+import { GET_REQUEST, GET_SUCCESS, GET_ERROR } from "../actions/actionTypes";
 
 const initialState = {
   loading: null,
   users: {},
-  error: '',
+  error: "",
 };
 
 const getReducer = (state = initialState, action) => {
@@ -13,24 +13,25 @@ const getReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
+
     case GET_SUCCESS:
       return {
         ...state,
         loading: false,
         users: action.payload,
-        error: '',
+        error: "",
       };
+
     case GET_ERROR:
       return {
         loading: false,
-        users : {},
+        users: {},
         error: action.payload,
       };
+      
     default:
       return state;
   }
 };
-
-
 
 export default getReducer;
