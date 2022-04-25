@@ -68,9 +68,33 @@ export const loginUser =  (user) => {
   };
 };
 
+export const updateProfile =  (user,id) => {
+  console.log("operations-editUser--->", user,"id____",id);
+  return  async () => {
+    try{      
+      const response = await API.patch(`/editProfile/${id}`, user, {
+        headers: {
+          'authorization': getTokenFromLs()
+        },
+        
+      })
+      console.log("editProfile_response ---", response.data);
+      alert('Profile updated successfully!!')
+      return { editProfile: true }
+    }
+    catch(error){
+      console.log("editProfile_operation-error", error.response)
+      alert(`editProfile_operations-error-- \n ${error.response.data.message}`)
+      return { editProfile: false }
+    }
+    
+  };
+};
+
+
 export const editUser =  (user) => {
   console.log("operations-editUser--->", user);
-  return  async () => {
+  return  async (dispatch) => {
     try{
       const { _id: id } = user
     
@@ -100,7 +124,7 @@ export const deleteUser =  (_id) => {
     try{
       const response = await API.delete('/delete',{
         headers: {
-          'authorizaton': getTokenFromLs()
+          'authorization': getTokenFromLs()
         },
         data:{ _id }
       })

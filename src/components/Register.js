@@ -15,6 +15,12 @@ function Register() {
     password: "",
   });
 
+  const [profile, setProfile] = useState("")
+
+  const selectProfile = (e) => {
+    setProfile(e.target.files[0])
+  }
+   
   const onChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -24,7 +30,14 @@ function Register() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const res = await dispatch(register(user));
+    
+    const formData = new FormData();
+    formData.append("name", user.name);
+    formData.append("email", user.email);
+    formData.append("password", user.password);
+    formData.append("profile", profile);
+
+    const res = await dispatch(register(formData));
     if (res.register) {
       navigate("/login")
       setUser({
@@ -32,6 +45,7 @@ function Register() {
         email: "",
         password: "",
       });
+      setProfile("")
     }
   };
 
@@ -44,6 +58,7 @@ function Register() {
             <label>Name:</label>
           </div>
           <input
+            style={{ width: "-webkit-fill-available" }}
             className="input border-2px-danger round"
             type="text"
             placeholder="Name"
@@ -58,6 +73,7 @@ function Register() {
             <label>Email:</label>
           </div>
           <input
+            style={{ width: "-webkit-fill-available" }}
             className="input"
             type="email"
             placeholder="Email"
@@ -72,6 +88,7 @@ function Register() {
             <label>Password:</label>
           </div>
           <input
+            style={{ width: "-webkit-fill-available" }}
             className="input"
             type="password"
             placeholder="Pasword"
@@ -80,6 +97,19 @@ function Register() {
             onChange={onChange}
           />
         </div>
+
+        <div className="profile p-1 ">
+          <input
+            className="input"
+            type="file"
+            placeholder="Profile"
+            name="profile"
+            filename="profile"
+            onChange={selectProfile}
+          />
+        </div>
+
+
         <div className="button my-2 p-1">
           <button
             className="submit btn-warning"

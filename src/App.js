@@ -17,7 +17,6 @@ function App() {
 
   useEffect(() => {
     const Token = localStorage.getItem(`token`);
-    console.log("nav", Token);
     if (Token) {
       setState({ token: Token, isActive: false });
     } else {

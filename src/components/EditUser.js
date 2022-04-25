@@ -18,6 +18,8 @@ function EditUser() {
     password: "",
   });
 
+  const [newPass, setNewPass] = useState(false);
+
   const onChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
@@ -26,14 +28,14 @@ function EditUser() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if(user.name === "") {
-    alert ("name cannot be empty")
-    return {edit:false};      
-    }
+    if (user.name === "") {
+      alert("name cannot be empty");
+      return { edit: false };
+    } 
 
     const res = await dispatch(editUser(user));
     if (res.edit) {
-      dispatch(getAll())
+      dispatch(getAll());
       navigate("/user");
       setUser({
         name: "",
@@ -58,6 +60,7 @@ function EditUser() {
             <label>Name:</label>
           </div>
           <input
+            style={{ width: "-webkit-fill-available" }}
             className="input border-2px-danger round"
             type="text"
             placeholder="Name"
@@ -72,6 +75,7 @@ function EditUser() {
             <label>Email:</label>
           </div>
           <input
+            style={{ width: "-webkit-fill-available" }}
             className="input"
             type="email"
             placeholder="Email"
@@ -81,18 +85,35 @@ function EditUser() {
           />
         </div>
 
-        <div className="new-password p-2">
-          <div className="label">
-            <label>New-Password:</label>
+        {newPass ? (
+          <div className="new-password p-2">
+            <div className="label">
+              <label>New-Password:</label>
+            </div>
+            <input
+              className="input"
+              type="password"
+              placeholder="Pasword"
+              name="password"
+              value={user.password}
+              onChange={onChange}
+            />
           </div>
+        ) : (
+          ""
+        )}
+
+        <div className="form-check">
           <input
-            className="input"
-            type="password"
-            placeholder="Pasword"
-            name="password"
-            value={user.password}
-            onChange={onChange}
+            className="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckIndeterminate"
+            onClick={() => setNewPass(!newPass)}
           />
+          <label className="form-check-label" for="flexCheckIndeterminate">
+            Change Password
+          </label>
         </div>
 
         <div className="button my-2 p-2">

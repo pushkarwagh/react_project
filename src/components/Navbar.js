@@ -18,8 +18,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const Token = localStorage.getItem(`token`);
-    console.log("nav",Token);
+    const Token = localStorage.getItem(`token`)
     if(Token){
       setState({ token: Token, isActive: false });
     }
@@ -53,13 +52,13 @@ const Navbar = () => {
                   className="text-light "
                   style={{ textDecoration: "none" }}
                 >
-                  Log_IN
+                  Login
                 </Link>
               </>
             ) : (
               <NavDropdown
                 id="basic-nav-dropdown"
-                title={<FaStreetView/>}
+                title={<FaStreetView className="text-light shadow"/>}
                 className="dropdown"
                 style={{ textDecoration: "none", marginTop: "-8px" }}
               >

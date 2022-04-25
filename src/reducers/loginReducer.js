@@ -19,7 +19,7 @@ const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        users: { ...state.users, ...action.payload },
+        users: { ...action.payload },
         error: '',
       };
 

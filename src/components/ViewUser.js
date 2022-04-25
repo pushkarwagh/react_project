@@ -5,10 +5,11 @@ import { Table } from "react-bootstrap";
 import { GrEdit } from "react-icons/gr";
 import { RiLogoutCircleLine } from "react-icons/ri";
 
-import { deleteUser, getAll } from "../operation/operations";
+import { deleteUser, getAll, updateProfile } from "../operation/operations";
 
 function ViewUser() {
   const [state, setState] = useState("");
+  const [profile, setProfile] = useState(state.profile);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,48 +30,95 @@ function ViewUser() {
       setState(viewUser);
       console.log("view-user_state", state);
     }
-
-    //localStorage.clear('token')
   }, []);
 
-  const logOut = (e) => {
-    e.preventDefault();
-    const delToken = localStorage.removeItem(`token`);
-    // console.log("deleted-Token", delToken);
-    setState("");
-    navigate("/login");
-    alert("logging-out");
+  const selectProfile = (e) => {
+    setProfile(e.target.files[0]);
   };
 
   const deleteAccount = async (e) => {
     e.preventDefault();
     const res = await dispatch(deleteUser(state._id));
     if (res.delete) {
-      navigate("/login");
+      const delToken = localStorage.removeItem(`token`);
+      navigate("/register");
+    }
+  };
+
+  const changeProfile = async (state,profile) => {
+    console.log("update-profile",profile);
+    console.log("profile-staet",state);
+    if(profile !== "") {
+      const formData = new FormData();
+      formData.append("email", state.email);  
+      formData.append("profile",profile);
+        
+      
+      console.log("profile0",formData);
+      const res = await dispatch(updateProfile(formData,state._id));
+      if(res.editProfile) {
+         alert("success")
+         const all = dispatch(getAll())
+         setState({...state,profile:profile})
+      }
     }
   };
 
   return (
     <>
       <div
-        className="container bg-light text-center d-flex align-items-baseline"
+        className="container bg-light text-center d-flex align-items-baseline "
         style={{ height: "100px" }}
       >
         <div className="user-heading m-auto">
-          Welcome - <strong> {state.name} </strong> :) 
+          Welcome - <strong> {state.name} </strong> :)
         </div>
         <div className="user-logout">
           <button
-              className="me-auto
-              btn border border-info shadow "
-              onClick={logOut}
-              >   <RiLogoutCircleLine size={25}/>    
-            </button>  
+            className="me-auto btn border border-info shadow "
+            disabled
+          >
+            {" "}
+            <RiLogoutCircleLine size={25} />
+          </button>
         </div>
       </div>
 
-      <div className="table ">
-        <Table striped bordered hover variant="light">
+      <div className="shadow user-profile border my-2 text-center align-self-end">
+        <div>
+          <h5 className="p-1">Profile</h5>
+          <img
+            alt="user_profile"
+            style={{ width: "150px", height: "120px" }}
+            src={state.profile}
+          />
+          <div>
+            <input
+              className="input"
+              type="file"
+              placeholder="Profile"
+              name="profile"
+              filename="profile"
+              onChange={selectProfile}
+            />
+          </div>
+          <div className="m-2">
+            <button className="btn btn-success" onClick={()=>changeProfile(state,profile)}>
+              {" "}
+              upload{" "}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="container table ">
+        <Table
+          striped
+          bordered
+          hover
+          variant="light"
+          style={{ overflowWrap: "anywhere" }}
+        >
           <thead>
             <tr>
               <th scope="col-2">id</th>
@@ -98,13 +146,15 @@ function ViewUser() {
           </tbody>
         </Table>
 
-        <div className="delete-account" style={{ float:"right" }} >
-            <button className="shadow btn btn-warning m-2 " onClick={deleteAccount} >
-              {" "}
-              Delete
-            </button>        
-              
-          </div>
+        <div className="delete-account" style={{ float: "right" }}>
+          <button
+            className="shadow btn btn-warning m-2 "
+            onClick={deleteAccount}
+          >
+            {" "}
+            Delete
+          </button>
+        </div>
       </div>
     </>
   );

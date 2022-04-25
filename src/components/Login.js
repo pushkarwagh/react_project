@@ -44,6 +44,7 @@ function Login() {
             <label>Email:</label>
           </div>
           <input
+            style={{ width: "-webkit-fill-available" }}
             className="input"
             type="email"
             placeholder="Email"
@@ -58,6 +59,7 @@ function Login() {
             <label>Password:</label>
           </div>
           <input
+            style={{ width: "-webkit-fill-available" }}
             className="input"
             type="password"
             placeholder="Pasword"
