@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaBackward, FaUserCircle, FaUserEdit } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { getAll, editUser } from "../operations/operations";
 
@@ -29,7 +30,7 @@ function EditUser() {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (user.name === "") {
-      alert("name cannot be empty");
+      toast.warning("name cannot be empty");
       return { edit: false };
     }
 

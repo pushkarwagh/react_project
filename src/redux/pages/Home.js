@@ -1,17 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
 import { MdAccountBox, MdDelete } from "react-icons/md";
 
 import { getAll, deleteUser } from "../operations/operations";
 import { FaUserAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 function Home() {
   const users = useSelector((state) => state.get.users);
-  const loginUser = useSelector((state) => state.login.users)
+  const loginUser = useSelector((state) => state.login.users);
   const dispatch = useDispatch();
 
   const neUser = Array.from(users);
+
+  const [filterList, setFilterList] = useState(neUser);
+
+  const handleSearch = (event) => {
+    if (event.target.value === "") {
+      setFilterList(neUser);
+      return;
+    }
+    const filteredValues = neUser.filter(
+      (item) =>
+        item.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1
+    );
+    setFilterList(filteredValues);
+  };
 
   // useEffect(() => {
   //   console.log("array", neUser);
@@ -22,7 +37,7 @@ function Home() {
     const res = await dispatch(deleteUser(id));
     if (res.delete) {
       dispatch(getAll());
-      alert("user-deleted successfully");
+      toast.success("user-deleted successfully");
     }
   };
 
@@ -46,6 +61,13 @@ function Home() {
           </div>
 
           <div className="user-table ">
+            <input
+              className="my-1 "
+              type="search"
+              placeholder="Search user"
+              onChange={handleSearch}             
+            />
+             <i className="fa fa-search"></i>
             {users.length > 0 ? (
               <Table
                 striped
@@ -64,42 +86,47 @@ function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  {neUser.map((user, i) => {
-                    return (
-                      <tr key={i}>
-                        <td>{user._id}</td>
+                  {filterList &&
+                    filterList.map((user, i) => {
+                      return (
+                        <tr key={i}>
+                          <td>{user._id}</td>
 
-                        <td>
-                          <img
-                            className="shadow rounded"
-                            src={
-                              user.profile == "" ? <FaUserAlt /> : user.profile
-                            }
-                            style={{ width: "50px", height: "50px" }}
-                          />
-                        </td>
+                          <td>
+                            <img
+                              className="shadow rounded"
+                              src={
+                                user.profile == "" ? (
+                                  <FaUserAlt />
+                                ) : (
+                                  user.profile
+                                )
+                              }
+                              style={{ width: "50px", height: "50px" }}
+                            />
+                          </td>
 
-                        <td>
-                          <MdAccountBox /> {user.name}
-                        </td>
+                          <td>
+                            <MdAccountBox /> {user.name}
+                          </td>
 
-                        <td>
-                          <strong>{user.email}</strong>
-                        </td>
+                          <td>
+                            <strong>{user.email}</strong>
+                          </td>
 
-                        <td>
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => deleteUserAccount(user._id)}
-                          >
-                            {" "}
-                            <MdDelete />
-                            Account
-                          </button>
-                        </td>
-                      </tr>
-                    ); //return close...
-                  })}
+                          <td>
+                            <button
+                              className="btn btn-danger"
+                              onClick={() => deleteUserAccount(user._id)}
+                            >
+                              {" "}
+                              <MdDelete />
+                              Account
+                            </button>
+                          </td>
+                        </tr>
+                      ); //return close...
+                    })}
                 </tbody>
               </Table>
             ) : (

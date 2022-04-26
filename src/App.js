@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Navbar from "./redux/components/Navbar";
 import Login from "./redux/pages/Login";
 import Register from "./redux/pages/Register";
@@ -8,6 +11,8 @@ import Home from "./redux/pages/Home";
 import ViewUser from "./redux/components/ViewUser";
 import EditUser from "./redux/components/EditUser";
 import NotFound from "./redux/pages/NotFound";
+
+toast.configure();
 
 function App() {
   const [state, setState] = useState({

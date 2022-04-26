@@ -4,6 +4,7 @@ const initialState = {
   loading: null,
   users: {},
   error: '',
+  profile: null,
 };
 
 const loginReducer = (state = initialState, action) => {
@@ -32,7 +33,7 @@ const loginReducer = (state = initialState, action) => {
         users : {},
         error: action.payload
       };
-      
+            
     default:
       return state;
   }

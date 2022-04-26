@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
 import { FaStreetView, FaUserAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [state, setState] = useState({
@@ -14,7 +15,7 @@ const Navbar = () => {
   const logout = () => {
     localStorage.removeItem(`token`);
     setState({ token: "", isActive: true });
-    alert('user logged out');
+    toast.info('user logged out');
     navigate('/login')
   };
 

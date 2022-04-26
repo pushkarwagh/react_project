@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import { GrEdit } from "react-icons/gr";
-import { RiLogoutCircleLine } from "react-icons/ri";
+// import { RiLogoutCircleLine } from "react-icons/ri";
 
 import { deleteUser, getAll, updateProfile } from "../operations/operations";
 
@@ -16,7 +16,7 @@ function ViewUser() {
 
   const user = useSelector((state) => state.login.users);
   const allUsers = useSelector((state) => state.get.users);
-
+  
   useEffect(() => {
     // console.log("view-user_login", user);
     // console.log("view-user_getall", allUsers);
@@ -58,7 +58,7 @@ function ViewUser() {
       console.log("profile0",formData);
       const res = await dispatch(updateProfile(formData,state._id));
       if(res.editProfile) {
-         alert("success")
+        //  alert("success")
          const all = dispatch(getAll())
          setState({...state,profile:profile})
       }
@@ -68,13 +68,13 @@ function ViewUser() {
   return (
     <>
       <div
-        className="container bg-light text-center d-flex align-items-baseline "
+        className="container bg-light text-center d-flex align-items-baseline border-round"
         style={{ height: "100px" }}
       >
         <div className="user-heading m-auto">
           Welcome - <strong> {state.name} </strong> :)
         </div>
-        <div className="user-logout">
+        {/* <div className="user-logout">
           <button
             className="me-auto btn border border-info shadow "
             disabled
@@ -82,10 +82,10 @@ function ViewUser() {
             {" "}
             <RiLogoutCircleLine size={25} />
           </button>
-        </div>
+        </div> */}
       </div>
 
-      <div className="shadow user-profile border my-2 text-center align-self-end">
+      <div className="shadow w-50 m-auto my-2 border text-center align-self-end">
         <div>
           <h5 className="p-1">Profile</h5>
           <img
@@ -95,12 +95,13 @@ function ViewUser() {
           />
           <div>
             <input
-              className="input"
+              className="input p-2"
               type="file"
               placeholder="Profile"
               name="profile"
               filename="profile"
               onChange={selectProfile}
+              style={{font: "-webkit-small-control"}}
             />
           </div>
           <div className="m-2">
