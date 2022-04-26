@@ -3,7 +3,7 @@ import { FaSignInAlt } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { getAll, loginUser } from "../operation/operations";
+import { getAll, loginUser } from "../operations/operations";
 
 function Login() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ function Login() {
     e.preventDefault();
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-    console.log("login_onchange-->", user);
+    // console.log("login_onchange-->", user);
   };
 
  const onSubmit = async (e) => {

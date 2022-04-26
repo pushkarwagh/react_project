@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./components/Navbar";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import ViewUser from "./components/ViewUser";
-import EditUser from "./components/EditUser";
-import NotFound from "./components/NotFound";
+import Navbar from "./redux/components/Navbar";
+import Login from "./redux/components/Login";
+import Register from "./redux/components/Register";
+import Home from "./redux/components/Home";
+import ViewUser from "./redux/components/ViewUser";
+import EditUser from "./redux/components/EditUser";
+import NotFound from "./redux/components/NotFound";
 
 function App() {
   const [state, setState] = useState({

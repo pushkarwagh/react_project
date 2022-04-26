@@ -4,11 +4,12 @@ import { FaStreetView, FaUserAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const navigate = useNavigate();
   const [state, setState] = useState({
     token: "",
     isActive: true,
   });
+  
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem(`token`);

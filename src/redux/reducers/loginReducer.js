@@ -19,12 +19,12 @@ const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        users: { ...action.payload },
+        users: action.payload ,
         error: '',
       };
 
     case LOGIN_ERROR:
-      console.log("login_reducer",action.payload);
+      // console.log("login_reducer",action.payload);
      
       return {
         ...state,

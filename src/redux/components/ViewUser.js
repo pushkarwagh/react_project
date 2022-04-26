@@ -5,11 +5,12 @@ import { Table } from "react-bootstrap";
 import { GrEdit } from "react-icons/gr";
 import { RiLogoutCircleLine } from "react-icons/ri";
 
-import { deleteUser, getAll, updateProfile } from "../operation/operations";
+import { deleteUser, getAll, updateProfile } from "../operations/operations";
 
 function ViewUser() {
   const [state, setState] = useState("");
   const [profile, setProfile] = useState(state.profile);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -17,8 +18,8 @@ function ViewUser() {
   const allUsers = useSelector((state) => state.get.users);
 
   useEffect(() => {
-    console.log("view-user_login", user);
-    console.log("view-user_getall", allUsers);
+    // console.log("view-user_login", user);
+    // console.log("view-user_getall", allUsers);
 
     if (allUsers !== null) {
       var viewUser = allUsers.filter((x) => x._id === user._id);
@@ -28,7 +29,7 @@ function ViewUser() {
     if (viewUser.length > 0) {
       viewUser = JSON.parse(JSON.stringify(viewUser[0]));
       setState(viewUser);
-      console.log("view-user_state", state);
+      // console.log("view-user_state", state);
     }
   }, []);
 
@@ -46,8 +47,8 @@ function ViewUser() {
   };
 
   const changeProfile = async (state,profile) => {
-    console.log("update-profile",profile);
-    console.log("profile-staet",state);
+    // console.log("update-profile",profile);
+    // console.log("profile-staet",state);
     if(profile !== "") {
       const formData = new FormData();
       formData.append("email", state.email);  

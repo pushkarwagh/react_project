@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
 import { MdAccountBox, MdDelete } from "react-icons/md";
 
-import { getAll, deleteUser } from "../operation/operations";
+import { getAll, deleteUser } from "../operations/operations";
 import { FaUserAlt } from "react-icons/fa";
 
 function Home() {
@@ -13,10 +13,10 @@ function Home() {
 
   const neUser = Array.from(users);
 
-  useEffect(() => {
-    console.log("array", neUser);
-    console.log("home-state", users);
-  }, []);
+  // useEffect(() => {
+  //   console.log("array", neUser);
+  //   console.log("home-state", users);
+  // }, []);
 
   const deleteUserAccount = async (id) => {
     const res = await dispatch(deleteUser(id));

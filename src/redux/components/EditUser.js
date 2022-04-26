@@ -3,7 +3,7 @@ import { FaBackward, FaUserCircle, FaUserEdit } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { getAll, editUser } from "../operation/operations";
+import { getAll, editUser } from "../operations/operations";
 
 function EditUser() {
   const prevUser = useLocation();

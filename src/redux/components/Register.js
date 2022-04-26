@@ -3,20 +3,20 @@ import { FaUserPlus } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { register } from "../operation/operations";
+import { register } from "../operations/operations";
 
 function Register() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
   });
-
+  
   const [profile, setProfile] = useState("")
-
+  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
   const selectProfile = (e) => {
     setProfile(e.target.files[0])
   }
@@ -25,7 +25,7 @@ function Register() {
     e.preventDefault();
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-    console.log("register_onchange-->", user);
+    // console.log("register_onchange-->", user);
   };
 
   const onSubmit = async (e) => {
