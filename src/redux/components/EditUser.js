@@ -31,7 +31,7 @@ function EditUser() {
     if (user.name === "") {
       alert("name cannot be empty");
       return { edit: false };
-    } 
+    }
 
     const res = await dispatch(editUser(user));
     if (res.edit) {
@@ -91,6 +91,7 @@ function EditUser() {
               <label>New-Password:</label>
             </div>
             <input
+              style={{ width: "-webkit-fill-available" }}
               className="input"
               type="password"
               placeholder="Pasword"
@@ -111,7 +112,7 @@ function EditUser() {
             id="flexCheckIndeterminate"
             onClick={() => setNewPass(!newPass)}
           />
-          <label className="form-check-label" for="flexCheckIndeterminate">
+          <label className="form-check-label" htmlFor="flexCheckIndeterminate">
             Change Password
           </label>
         </div>

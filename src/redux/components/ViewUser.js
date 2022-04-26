@@ -23,7 +23,7 @@ function ViewUser() {
 
     if (allUsers !== null) {
       var viewUser = allUsers.filter((x) => x._id === user._id);
-      console.log("view-user_filter", viewUser);
+      // console.log("view-user_filter", viewUser);
     }
 
     if (viewUser.length > 0) {
