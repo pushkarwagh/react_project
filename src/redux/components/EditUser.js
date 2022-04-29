@@ -54,6 +54,7 @@ function EditUser() {
 
       <form
         className="form-wrapper my-3 p-4 w-50 m-auto border border-success rounded"
+        style={{ backgroundColor: "lightblue" }}
         onSubmit={onSubmit}
       >
         <div className="name p-2">

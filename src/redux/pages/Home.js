@@ -8,7 +8,7 @@ import { FaUserAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 function Home() {
-  const users = useSelector((state) => state.get.users);
+  const users = useSelector((state) => state.getAllUsers.users);
   const loginUser = useSelector((state) => state.login.users);
   const dispatch = useDispatch();
 
@@ -62,12 +62,11 @@ function Home() {
 
           <div className="user-table ">
             <input
-              className="my-1 "
+              className="my-1 shadow border border-none"
               type="search"
               placeholder="Search user"
-              onChange={handleSearch}             
+              onChange={handleSearch}
             />
-             <i className="fa fa-search"></i>
             {users.length > 0 ? (
               <Table
                 striped
@@ -78,10 +77,10 @@ function Home() {
               >
                 <thead>
                   <tr>
-                    <th scope="col-2">id</th>
+                    <th scope="col-2">Id</th>
                     <th scope="col-2">Profile</th>
                     <th scope="col">Name</th>
-                    <th scope="col-2">email</th>
+                    <th scope="col-2">Email</th>
                     <th scope="col">Actons</th>
                   </tr>
                 </thead>
@@ -130,12 +129,21 @@ function Home() {
                 </tbody>
               </Table>
             ) : (
-              <h3 className="text-center text-warning"> no users YEt!? </h3>
+              <h3 className="text-center text-warning"> No users yEt!? </h3>
             )}
           </div>
         </div>
       ) : (
-        <div> not a admin</div>
+        <div
+          style={{
+            backgroundImage:
+              "linear-gradient(90deg, #020024 0%, #090979 35%, #00d4ff 100%)",
+            minHeight: "60vh", color:"white", textAlign:"center"
+          }}
+        >
+          {" "}
+          Not Admin?!
+        </div>
       )}
     </>
   );

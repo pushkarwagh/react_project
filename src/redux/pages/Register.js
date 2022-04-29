@@ -51,7 +51,7 @@ function Register() {
 
   return (
     <div className="container my-2 border p-2">
-      <div className="header text-center text-secondary"> Register_User </div>
+      <div className="header text-center text-secondary"> RegisterUser </div>
       <form className="form-wrapper w-50 my-2 m-auto " onSubmit={onSubmit}>
         <div className="name p-1">
           <div className="label">
@@ -91,7 +91,7 @@ function Register() {
             style={{ width: "-webkit-fill-available" }}
             className="input"
             type="password"
-            placeholder="Pasword"
+            placeholder="Password"
             name="password"
             value={user.password}
             onChange={onChange}
@@ -116,7 +116,7 @@ function Register() {
             type="submit"
             // onClick={() => onSubmit(user)}
           >
-            <FaUserPlus /> Register
+            <FaUserPlus /> Sign up
           </button>
         </div>
 
@@ -129,7 +129,7 @@ function Register() {
               className="text-blue ms-1"
               style={{ textDecoration: "none" }}
             >
-              Log_IN
+              Login
             </Link>
           </p>
         </div>

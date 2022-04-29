@@ -5,6 +5,9 @@ import {
   GET_REQUEST,
   GET_SUCCESS,
   GET_ERROR,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_ERROR,
 } from "./actionTypes";
 
 export const getRequest = () => {
@@ -26,6 +29,27 @@ export const getError = (error) => {
     payload: error,
   };
 };
+
+export const getUserRequest = () => {
+  return {
+    type: GET_USER_REQUEST,
+  };
+};
+
+export const getUserSuccess = (data) => {
+  return {
+    type: GET_USER_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getUserError = (error) => {
+  return {
+    type: GET_USER_ERROR,
+    payload: error,
+  };
+};
+
 
 export const loginRequest = () => {
   return {

@@ -1,27 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Nav, NavDropdown } from "react-bootstrap";
-import { FaStreetView, FaUserAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaStreetView, FaUserAlt } from "react-icons/fa";
+import { SiHomebridge } from "react-icons/si";
+import { BiLogOutCircle } from "react-icons/bi";
 
 const Navbar = () => {
   const [state, setState] = useState({
     token: "",
     isActive: true,
   });
-  
+
   const navigate = useNavigate();
 
   const logout = () => {
     localStorage.removeItem(`token`);
     setState({ token: "", isActive: true });
-    toast.info('user logged out');
-    navigate('/login')
+    toast.info("user logged out");
+    navigate("/login");
   };
 
   useEffect(() => {
-    const Token = localStorage.getItem(`token`)
-    if(Token){
+    const Token = localStorage.getItem(`token`);
+    if (Token) {
       setState({ token: Token, isActive: false });
     }
   });
@@ -39,7 +41,7 @@ const Navbar = () => {
           </Link>
 
           <div className="nav-link d-flex">
-            { state.isActive ? (
+            {state.isActive ? (
               <>
                 <Link
                   to="/register"
@@ -58,20 +60,32 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <NavDropdown
-                id="basic-nav-dropdown"
-                title={<FaStreetView className="text-light shadow"/>}
-                className="dropdown"
-                style={{ textDecoration: "none", marginTop: "-8px" }}
-              >
-                <NavDropdown.Item as={Link} to='/user'>
-                  {" "}
-                  <FaUserAlt size={20} />
-                  Profile
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logout}>Log-Out</NavDropdown.Item>
-              </NavDropdown>
+              <>
+                <Link
+                  to="/user"
+                  className="text-light "
+                  style={{ textDecoration: "none" }}
+                >
+                  <SiHomebridge /> Home
+                </Link>
+                
+                <NavDropdown
+                  id="basic-nav-dropdown"
+                  title={<FaStreetView className="text-light shadow" />}
+                  className="dropdown"
+                  style={{ textDecoration: "none", marginTop: "-8px"  }}
+                >
+                  <NavDropdown.Item as={Link} to="/user/profile">
+                    {" "}
+                    <FaUserAlt />
+                    Profile
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={logout}>
+                    <BiLogOutCircle /> Log-Out
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
             )}
           </div>
         </div>

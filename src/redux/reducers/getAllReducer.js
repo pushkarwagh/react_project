@@ -6,7 +6,7 @@ const initialState = {
   error: "",
 };
 
-const getReducer = (state = initialState, action) => {
+const getAllReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_REQUEST:
       return {
@@ -34,4 +34,4 @@ const getReducer = (state = initialState, action) => {
   }
 };
 
-export default getReducer;
+export default getAllReducer;

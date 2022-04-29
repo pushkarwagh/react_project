@@ -8,9 +8,10 @@ import Navbar from "./redux/components/Navbar";
 import Login from "./redux/pages/Login";
 import Register from "./redux/pages/Register";
 import Home from "./redux/pages/Home";
-import ViewUser from "./redux/components/ViewUser";
+import User from "./redux/components/User";
 import EditUser from "./redux/components/EditUser";
 import NotFound from "./redux/pages/NotFound";
+import UserProfile from "./redux/pages/UserProfile";
 
 toast.configure();
 
@@ -43,8 +44,9 @@ function App() {
             ) : (
               <>
               <Route path="/" element={<Home />} />
-                <Route path="/user" element={<ViewUser />} />
+                <Route path="/user" element={<User />} />
                 <Route path="/edit/:id" element={<EditUser />} />
+                <Route path="/user/profile" element={<UserProfile />} />
               </>
             )}
             <Route path="*" element={<NotFound />} />

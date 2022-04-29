@@ -10,8 +10,10 @@ import {
   getRequest,
   getSuccess,
   getError,
+  getUserRequest,
+  getUserSuccess,
+  getUserError,
 } from "../actions/actionCreators";
-import { useState } from "react";
 
 // const useLoader = () => {
 //   var [loading, setLoading] = useState(null);
@@ -39,6 +41,25 @@ export const getAll = () => {
         // console.log("error", error);
         dispatch(getError(error));
       });
+  };
+};
+
+export const getUser = (id) => {
+  // console.log("getAll-operations--->");
+  return async (dispatch) => {
+    try {
+      dispatch(getUserRequest());
+      const response = await API.get(`/user/${id}`, {
+        headers: {
+          authorization: getTokenFromLs(),
+        },
+      });
+      // console.log("get-user_response ---", response);
+      dispatch(getUserSuccess(response.data));
+    } catch (error) {
+      // console.log("error", error);
+      dispatch(getUserError(error));
+    }
   };
 };
 
@@ -73,6 +94,7 @@ export const loginUser = (user) => {
       setTokenInLs(response.data.token);
 
       dispatch(loginSuccess(response.data));
+      dispatch(getUser(response.data._id));
       toast.success("logged in successfully");
       // alert('Logged-In successfully!!')
       return { login: true };
@@ -97,7 +119,7 @@ export const updateProfile = (user, id) => {
       });
       // console.log("editProfile_response ---", response.data);
       // alert('Profile updated successfully!!')/
-
+      await dispatch(getUser(id));
       toast.success("Profile updated successfully");
       return { editProfile: true };
     } catch (error) {
@@ -122,7 +144,7 @@ export const editUser = (user) => {
       });
       // console.log("editUser_response ---", response.data);
       // alert('updated successfully!!')
-
+      await dispatch(getUser(id));
       toast.success("user updated successfully");
       return { edit: true };
     } catch (error) {
