@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function NotFound() {
+  const [token,setToken] = useState("")
+  
+  useEffect(()=>{
+    setToken(localStorage.getItem(`token`));
+  },[]);
+
   return (
     <div
       className="p-4 bg-light text-center"
@@ -13,12 +19,15 @@ function NotFound() {
         textAlign: "center",
       }}
     >
+        { !token ?
       <h3 style={{ color: "#008080" }}>
-        Please,{" "}
+        Please,
         <Link to="/login" style={{ textDecoration: "none", color: "#008080" }}>
           Log_In!!!!
         </Link>
-      </h3>
+        </h3>
+        : <h3 style={{ color: "#008080" }}> Something went wrong  </h3>
+}
     </div>
   );
 }

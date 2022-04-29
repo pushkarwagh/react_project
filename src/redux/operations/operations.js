@@ -13,6 +13,9 @@ import {
   getUserRequest,
   getUserSuccess,
   getUserError,
+  getTeamRequest,
+  getTeamSuccess,
+  getTeamError,
 } from "../actions/actionCreators";
 
 // const useLoader = () => {
@@ -56,9 +59,33 @@ export const getUser = (id) => {
       });
       // console.log("get-user_response ---", response);
       dispatch(getUserSuccess(response.data));
+      return { getUser: true };
     } catch (error) {
       // console.log("error", error);
       dispatch(getUserError(error));
+      return { getUser: false };
+    }
+  };
+};
+
+export const getTeam = (id) => {
+  console.log("getTeam-operations--->");
+  return async (dispatch) => {
+    try {
+      dispatch(getTeamRequest());
+      const response = await API.get(`/team/${id}`, {
+        headers: {
+          authorization: getTokenFromLs(),
+        },
+      });
+      console.log("get-team_response ---", response);
+      dispatch(getTeamSuccess(response.data));
+      return { getTeam: true };
+    } catch (error) {
+      // console.log("error-team", error);
+      dispatch(getTeamError(error));
+      toast.error(error.response.data)
+      return { getTeam: false };
     }
   };
 };
@@ -78,6 +105,24 @@ export const register = (user) => {
       // alert(error.response.data)
       toast.error(error.response.data);
       return { register: false };
+    }
+  };
+};
+
+export const addUser = (user,id) => {
+  return async () => {
+    try {
+      const response = await API.post(`/add/${id}`, user, {
+        headers: {
+          authorization: getTokenFromLs(),
+        },
+      });
+
+      toast.success(response.data);
+      return { addNew: true };
+    } catch (error) {
+      toast.error(error.response.data);
+      return { addNew: false };
     }
   };
 };
@@ -119,7 +164,7 @@ export const updateProfile = (user, id) => {
       });
       // console.log("editProfile_response ---", response.data);
       // alert('Profile updated successfully!!')/
-      await dispatch(getUser(id));
+      // await dispatch(getUser(id));
       toast.success("Profile updated successfully");
       return { editProfile: true };
     } catch (error) {

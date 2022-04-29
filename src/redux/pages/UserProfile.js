@@ -2,24 +2,24 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserAlt } from "react-icons/fa";
 
-import { updateProfile } from "../operations/operations";
+import { getUser, updateProfile } from "../operations/operations";
 
 function UserProfile() {
   const singleUser = useSelector((state) => state.getUser.user);
   const dispatch = useDispatch();
-  const [state, setState] = useState({
-    _id: singleUser._id,
-    name: singleUser.name,
-    email: singleUser.email,
-    profile: singleUser.profile,
-  });
 
-  const [newProfile, setNewProfile] = useState(singleUser.profile);
+  const [state, setState] = useState("");
+  const [newProfile, setNewProfile] = useState("");
+
+  useEffect(()=>{
+    setState(singleUser);
+    setNewProfile(singleUser.profile);
+  },[])
 
   const selectProfile = (e) => {
     setNewProfile(e.target.files[0]);
   };
-
+ 
   const changeProfile = async (state, newProfile) => {
     // console.log("update-profile",newProfile);
     // console.log("profile-staet",state);
@@ -28,10 +28,12 @@ function UserProfile() {
       formData.append("profile", newProfile);
 
       const res = await dispatch(updateProfile(formData, state._id));
+      const response = await dispatch(getUser(state._id));
       if (res.editProfile) {
-        //  alert("success")
-        setState({ ...state, profile: newProfile });
-        debugger
+        if (response.getUser) {          
+          setState({ ...singleUser, profile: singleUser.profile });;
+        }
+        //  alert("success")        
       }
     }
   };
@@ -50,14 +52,14 @@ function UserProfile() {
         <div>
           <p className="my-1 p-1">Profile-Photo</p>
           <img
+            src={state.profile}
             alt="user_profile"
             style={{
               width: "150px",
               height: "120px",
-              border: "2px solid black",
+              border: "2px solid #559dac",
               borderRadius: "5px",
             }}
-            src={state.profile}
           />
           <div className="my-2">
             <input

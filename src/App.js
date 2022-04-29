@@ -12,6 +12,8 @@ import User from "./redux/components/User";
 import EditUser from "./redux/components/EditUser";
 import NotFound from "./redux/pages/NotFound";
 import UserProfile from "./redux/pages/UserProfile";
+import AddUser from "./redux/components/AddUser";
+import ShowTeam from "./redux/components/ShowTeam";
 
 toast.configure();
 
@@ -47,6 +49,8 @@ function App() {
                 <Route path="/user" element={<User />} />
                 <Route path="/edit/:id" element={<EditUser />} />
                 <Route path="/user/profile" element={<UserProfile />} />
+                <Route path="/addUser/:id" element={<AddUser />} />
+                <Route path="/getTeam/:id" element={<ShowTeam />} />
               </>
             )}
             <Route path="*" element={<NotFound />} />

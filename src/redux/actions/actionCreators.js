@@ -8,6 +8,9 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_ERROR,
+  GET_TEAM_REQUEST,
+  GET_TEAM_SUCCESS,
+  GET_TEAM_ERROR,
 } from "./actionTypes";
 
 export const getRequest = () => {
@@ -50,6 +53,25 @@ export const getUserError = (error) => {
   };
 };
 
+export const getTeamRequest = () => {
+  return {
+    type: GET_TEAM_REQUEST,
+  };
+};
+
+export const getTeamSuccess = (data) => {
+  return {
+    type: GET_TEAM_SUCCESS,
+    payload: data,
+  };
+};
+
+export const getTeamError = (error) => {
+  return {
+    type: GET_TEAM_ERROR,
+    payload: error,
+  };
+};
 
 export const loginRequest = () => {
   return {
