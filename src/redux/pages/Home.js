@@ -81,7 +81,7 @@ function Home() {
                     <th scope="col-2">Profile</th>
                     <th scope="col">Name</th>
                     <th scope="col-2">Email</th>
-                    <th scope="col">Actons</th>
+                    <th scope="col">Actions</th>
                   </tr>
                 </thead>
                 <tbody>

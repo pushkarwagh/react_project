@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 // import Loader from "react-js-loader";
 
 import API from "./api.js";
-import { getTokenFromLs, setTokenInLs } from "../utils/helpers.js";
+import { getValueFromLs, setValueInLs } from "../utils/helpers.js";
 import {
   loginRequest,
   loginSuccess,
@@ -54,7 +54,7 @@ export const getUser = (id) => {
       dispatch(getUserRequest());
       const response = await API.get(`/user/${id}`, {
         headers: {
-          authorization: getTokenFromLs(),
+          authorization: getValueFromLs("token"),
         },
       });
       // console.log("get-user_response ---", response);
@@ -69,16 +69,16 @@ export const getUser = (id) => {
 };
 
 export const getTeam = (id) => {
-  console.log("getTeam-operations--->");
+  // console.log("getTeam-operations--->");
   return async (dispatch) => {
     try {
       dispatch(getTeamRequest());
       const response = await API.get(`/team/${id}`, {
         headers: {
-          authorization: getTokenFromLs(),
+          authorization: getValueFromLs("token"),
         },
       });
-      console.log("get-team_response ---", response);
+      // console.log("get-team_response ---", response);
       dispatch(getTeamSuccess(response.data));
       return { getTeam: true };
     } catch (error) {
@@ -114,7 +114,7 @@ export const addUser = (user,id) => {
     try {
       const response = await API.post(`/add/${id}`, user, {
         headers: {
-          authorization: getTokenFromLs(),
+          authorization: getValueFromLs("token"),
         },
       });
 
@@ -136,10 +136,11 @@ export const loginUser = (user) => {
       // console.log("login-user_response ---", response.data);
 
       //setting token..
-      setTokenInLs(response.data.token);
+      setValueInLs("token",response.data.token);
+      setValueInLs("isAdmin",response.data.isAdmin)
 
       dispatch(loginSuccess(response.data));
-      dispatch(getUser(response.data._id));
+      await dispatch(getUser(response.data._id));
       toast.success("logged in successfully");
       // alert('Logged-In successfully!!')
       return { login: true };
@@ -159,17 +160,15 @@ export const updateProfile = (user, id) => {
     try {
       const response = await API.patch(`/editProfile/${id}`, user, {
         headers: {
-          authorization: getTokenFromLs(),
+          authorization: getValueFromLs("token"),
         },
       });
-      // console.log("editProfile_response ---", response.data);
-      // alert('Profile updated successfully!!')/
-      // await dispatch(getUser(id));
+      console.log("editProfile_response ---", response.data);
       toast.success("Profile updated successfully");
+      dispatch(getUserSuccess(response.data));
       return { editProfile: true };
     } catch (error) {
-      // console.log("editProfile_operation-error", error.response)
-      // alert(`editProfile_operations-error-- \n ${error.response.data.message}`)
+      dispatch(getTeamError(error));
       toast.error(error.response.data.message);
       return { editProfile: false };
     }
@@ -177,14 +176,13 @@ export const updateProfile = (user, id) => {
 };
 
 export const editUser = (user) => {
-  // console.log("operations-editUser--->", user);
   return async (dispatch) => {
     try {
       const { _id: id } = user;
 
       const response = await API.patch(`/edit/${id}`, user, {
         headers: {
-          authorization: getTokenFromLs(),
+          authorization: getValueFromLs("token"),
         },
       });
       // console.log("editUser_response ---", response.data);
@@ -207,7 +205,7 @@ export const deleteUser = (_id) => {
     try {
       const response = await API.delete("/delete", {
         headers: {
-          authorization: getTokenFromLs(),
+          authorization: getValueFromLs("token"),
         },
         data: { _id },
       });

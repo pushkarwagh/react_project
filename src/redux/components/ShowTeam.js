@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Table } from "react-bootstrap";
-import { FaUserAlt } from "react-icons/fa";
+import { FaUserAlt, FaUserCircle } from "react-icons/fa";
 import { MdAccountBox, MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { deleteUser, getTeam } from "../operations/operations";
 
 function ShowTeam() {
   const { id } = useParams();
+  const loggedInUser = useLocation();
   const users = useSelector((state) => state.getTeam.users);
   const teamMembers = Array.from(users);
   const dispatch = useDispatch();
@@ -37,6 +38,11 @@ function ShowTeam() {
 
   return (
     <div>
+      <div className="container bg-light p-2">
+        <h3 className="text-center ">
+          <FaUserCircle /> {loggedInUser.state.data}
+        </h3>
+      </div>
       <div>ShowTeam...</div>
 
       {/* <input
@@ -59,7 +65,7 @@ function ShowTeam() {
             <th scope="col-2">Profile</th>
             <th scope="col">Name</th>
             <th scope="col-2">Email</th>
-            <th scope="col">Actons</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import {toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Navbar from "./redux/components/Navbar";
 import Login from "./redux/pages/Login";
@@ -14,6 +14,7 @@ import NotFound from "./redux/pages/NotFound";
 import UserProfile from "./redux/pages/UserProfile";
 import AddUser from "./redux/components/AddUser";
 import ShowTeam from "./redux/components/ShowTeam";
+import { getValueFromLs } from "./redux/utils/helpers";
 
 toast.configure();
 
@@ -21,10 +22,12 @@ function App() {
   const [state, setState] = useState({
     token: "",
     isActive: true,
+    
   });
 
   useEffect(() => {
-    const Token = localStorage.getItem(`token`);
+    const Token = getValueFromLs("token");
+    const isAdmin = getValueFromLs("isAdmin");
     if (Token) {
       setState({ token: Token, isActive: false });
     } else {
@@ -45,7 +48,7 @@ function App() {
               </>
             ) : (
               <>
-              <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home />} />
                 <Route path="/user" element={<User />} />
                 <Route path="/edit/:id" element={<EditUser />} />
                 <Route path="/user/profile" element={<UserProfile />} />

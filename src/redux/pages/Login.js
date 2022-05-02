@@ -8,20 +8,41 @@ import { getAll, loginUser } from "../operations/operations";
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
-  // const [checked, setChecked] = useState(false);
+  const [error,setError] = useState({
+    emailErr: "",
+    passwordErr: "",
+  })
 
-  // const handleChecked = (event) => {
-  //   setChecked(event.target.checked);
-  //   if (event.target.checked) {
-  //     remember(user);
-  //   }
-  // };
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    const cookieEmail = getCookie("myEmail");
+    const cookiePassword = getCookie("myPassword");
+
+    setUser({
+      email: cookieEmail,
+      password: cookiePassword,
+    });
+
+    setTimeout(() => {
+      document.cookie = "myEmail=; MaxAge=0; secure ; path=http://localhost:3000";
+      document.cookie ="myPassword=; MaxAge=0; secure ; path=http://localhost:3000";
+    }, 5000);
+
+  }, []);
+
+  const handleChecked = (event) => {
+    setChecked(event.target.checked);
+    if (event.target.checked) {
+      remember();
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -29,16 +50,7 @@ function Login() {
     }, 2000);
   }, []);
 
-  useEffect(() => {
-    const cookieEmail = getCookie("myEmail");
-    const cookiePassword = getCookie("myPassword");
-      setUser({
-        email: cookieEmail,
-        password: cookiePassword,
-      });
-    document.cookie ="myPassword=; MaxAge=0; secure ; path=http://localhost:3000";
-    document.cookie = "myEmail=; MaxAge=0; secure ; path=http://localhost:3000";
-  }, []);
+ 
 
   const getCookie = (key) => {
     const name = key + "=";
@@ -55,26 +67,41 @@ function Login() {
   };
 
   const onChange = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-    // console.log("login_onchange-->", user);
   };
 
-  const remember = (values) => {
+  const remember = () => {
     //set cookies...
     document.cookie =
-      "myEmail=" + values.email + "; path=http://localhost:3000";
+      "myEmail=" + user.email + "; path=http://localhost:3000";
     document.cookie =
-      "myPassword=" + values.password + "; path=http://localhost:3000";
+      "myPassword=" + user.password + "; path=http://localhost:3000";
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const { email, password } = user;
+    const emailCheck = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    );
+    if (email === "") {
+      setError({ emailErr: " Email is Required " });
+    } else if (!emailCheck) {
+      setError({ emailErr: " Enter a valid Email" });
+    } else if (password === "") {
+      setError({ passwordErr: "password is required  " });
+    } else if (password.length < 7) {
+      setError({
+        passwordErr: "password  must contain  eight characters ",
+      });
+    } else {
     const res = await dispatch(loginUser(user));
     if (res.login) {
       navigate("/user");
     }
+  }
   };
 
   return (
@@ -94,6 +121,14 @@ function Login() {
             value={user.email}
             onChange={onChange}
           />
+          {error && error.emailErr ? (
+            <p style={{ color: "#e50e0e", fontSize: "12px" }}>
+              {" "}
+              {error.emailErr}{" "}
+            </p>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="password p-1">
@@ -109,6 +144,15 @@ function Login() {
             value={user.password}
             onChange={onChange}
           />
+         {error && error.passwordErr ? (
+            <p style={{ color: "#e50e0e", fontSize: "12px" }}>
+              {" "}
+              {error.passwordErr}{" "}
+            </p>
+          ) : (
+            ""
+          )}
+
         </div>
 
         <div className="remember-me p-1">
@@ -117,9 +161,8 @@ function Login() {
             className="checkbox mx-1"
             type="checkbox"
             name="remember me"
-            // checked={checked}
-            // onChange={handleChecked}
-            onClick={()=>remember(user)}
+            checked={checked}
+            onChange={handleChecked}
           />
           <label>Remember me</label>
         </div>

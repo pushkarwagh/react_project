@@ -29,7 +29,7 @@ function User() {
         </div>
 
         <div style={{ marginBlock: "auto" }}>
-          <Link to={`/addUser/${state._id}`}>
+          <Link to={`/addUser/${state._id}`} state={{ data: state.name }}>
             <button className="btn btn-primary my-1 shadow">
               <ImUserPlus size={20} /> User
             </button>
@@ -67,7 +67,7 @@ function User() {
           <Card.Footer>
             <div style={{ float: "left" }}>
               Team:
-              <Link to={`/getTeam/${state._id}`}>
+              <Link to={`/getTeam/${state._id}`} state={{ data: state.name }}>
                 <FaUsers
                   size={20}
                   className="mx-1"

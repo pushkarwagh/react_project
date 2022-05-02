@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaUserAlt } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 
-import { getUser, updateProfile } from "../operations/operations";
+import { updateProfile } from "../operations/operations";
 
 function UserProfile() {
   const singleUser = useSelector((state) => state.getUser.user);
@@ -11,15 +11,14 @@ function UserProfile() {
   const [state, setState] = useState("");
   const [newProfile, setNewProfile] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     setState(singleUser);
-    setNewProfile(singleUser.profile);
-  },[])
+  }, [singleUser]);
 
   const selectProfile = (e) => {
     setNewProfile(e.target.files[0]);
   };
- 
+
   const changeProfile = async (state, newProfile) => {
     // console.log("update-profile",newProfile);
     // console.log("profile-staet",state);
@@ -28,20 +27,17 @@ function UserProfile() {
       formData.append("profile", newProfile);
 
       const res = await dispatch(updateProfile(formData, state._id));
-      const response = await dispatch(getUser(state._id));
       if (res.editProfile) {
-        if (response.getUser) {          
-          setState({ ...singleUser, profile: singleUser.profile });;
-        }
-        //  alert("success")        
+        setState({ ...singleUser, profile: singleUser.profile });
+        setNewProfile("")
       }
     }
   };
 
   return (
-    <div className="container my-1" >
+    <div className="container my-1">
       <div className="text-center">
-        <FaUserAlt />
+        <FaUserCircle />
         <strong> {state.name} </strong>
       </div>
 

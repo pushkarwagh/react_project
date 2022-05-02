@@ -11,41 +11,66 @@ function Register() {
     email: "",
     password: "",
   });
-  
-  const [profile, setProfile] = useState("")
-  
+
+  const [error, setError] = useState({
+    nameErr: "",
+    emailErr: "",
+    passwordErr: "",
+  });
+
+  const [profile, setProfile] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const selectProfile = (e) => {
-    setProfile(e.target.files[0])
-  }
-   
+    setProfile(e.target.files[0]);
+  };
+
   const onChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-    // console.log("register_onchange-->", user);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
-    const formData = new FormData();
-    formData.append("name", user.name);
-    formData.append("email", user.email);
-    formData.append("password", user.password);
-    formData.append("profile", profile);
 
-    const res = await dispatch(register(formData));
-    if (res.register) {
-      navigate("/login")
-      setUser({
-        name: "",
-        email: "",
-        password: "",
+    const { name, email, password } = user;
+    const emailCheck = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      email
+    );
+    if (name === "") {
+      setError({ nameErr: "name is required " });
+    } else if (name.length < 3) {
+      setError({ nameErr: " name must have three characters " });
+    } else if (email === "") {
+      setError({ emailErr: " Email is Required " });
+    } else if (!emailCheck) {
+      setError({ emailErr: " Enter a valid Email" });
+    } else if (password === "") {
+      setError({ passwordErr: "password is required  " });
+    } else if (password.length < 7) {
+      setError({
+        passwordErr: "password  must contain  eight characters ",
       });
-      setProfile("")
+    } else {
+      const formData = new FormData();
+      formData.append("name", user.name);
+      formData.append("email", user.email);
+      formData.append("password", user.password);
+      formData.append("profile", profile);
+
+      const res = await dispatch(register(formData));
+      if (res.register) {
+        navigate("/login");
+        setUser({
+          name: "",
+          email: "",
+          password: "",
+        });
+        setProfile("");
+      }
     }
   };
 
@@ -66,6 +91,11 @@ function Register() {
             value={user.name}
             onChange={onChange}
           />
+          {error && error.nameErr ? (
+            <p style={{ color: "red", fontSize: "12px" }}> {error.nameErr} </p>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="email p-1">
@@ -81,6 +111,11 @@ function Register() {
             value={user.email}
             onChange={onChange}
           />
+          {error && error.emailErr ? (
+            <p style={{ color: "red", fontSize: "12px" }}> {error.emailErr} </p>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="password p-1">
@@ -96,10 +131,19 @@ function Register() {
             value={user.password}
             onChange={onChange}
           />
+          {error && error.passwordErr ? (
+            <p style={{ color: "red", fontSize: "12px" }}>
+              {" "}
+              {error.passwordErr}{" "}
+            </p>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="profile p-1 ">
           <input
+            style={{fontSize: "12px"}}
             className="input"
             type="file"
             placeholder="Profile"
@@ -109,13 +153,8 @@ function Register() {
           />
         </div>
 
-
         <div className="button my-2 p-1">
-          <button
-            className="submit btn-warning"
-            type="submit"
-            // onClick={() => onSubmit(user)}
-          >
+          <button className="submit btn-warning" type="submit">
             <FaUserPlus /> Sign up
           </button>
         </div>
@@ -123,7 +162,7 @@ function Register() {
         <div className="para p-2">
           <p>
             {" "}
-            Have an account? then
+            Have an account? then,
             <Link
               to="/login"
               className="text-blue ms-1"
