@@ -24,7 +24,6 @@ function AddUser() {
 
   const [profile, setProfile] = useState("");
 
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const selectProfile = (e) => {
@@ -35,7 +34,6 @@ function AddUser() {
     e.preventDefault();
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
-    // console.log("register_onchange-->", user);
   };
 
   const onSubmit = async (e) => {
@@ -68,7 +66,6 @@ function AddUser() {
       console.log("---", formData);
       const res = await dispatch(addUser(formData, id));
       if (res.addNew) {
-        // navigate("/user")
         setUser({
           name: "",
           email: "",

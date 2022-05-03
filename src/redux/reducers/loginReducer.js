@@ -16,7 +16,6 @@ const loginReducer = (state = initialState, action) => {
       };
 
     case LOGIN_SUCCESS:
-      // const { _id , token } = action.payload;
       return {
         ...state,
         loading: false,
@@ -25,7 +24,6 @@ const loginReducer = (state = initialState, action) => {
       };
 
     case LOGIN_ERROR:
-      // console.log("login_reducer",action.payload);
      
       return {
         ...state,

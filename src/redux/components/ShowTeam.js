@@ -12,21 +12,7 @@ function ShowTeam() {
   const loggedInUser = useLocation();
   const users = useSelector((state) => state.getTeam.users);
   const teamMembers = Array.from(users);
-  const dispatch = useDispatch();
-
-  // const [filterList, setFilterList] = useState(users);
-
-  // const handleSearch = (event) => {
-  //   if (event.target.value === "") {
-  //     setFilterList(users);
-  //     return;
-  //   }
-  //   const filteredValues = users.filter(
-  //     (item) =>
-  //       item.name.toLowerCase().indexOf(event.target.value.toLowerCase()) !== -1
-  //   );
-  //   setFilterList(filteredValues);
-  // };
+  const dispatch = useDispatch()
 
   const deleteUserAccount = async (userId) => {
     const res = await dispatch(deleteUser(userId));
@@ -44,13 +30,6 @@ function ShowTeam() {
         </h3>
       </div>
       <div>ShowTeam...</div>
-
-      {/* <input
-        className="my-1 shadow border border-none"
-        type="search"
-        placeholder="Search user"
-        onChange={handleSearch}
-      /> */}
 
       <Table
         striped

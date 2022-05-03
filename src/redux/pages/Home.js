@@ -28,11 +28,6 @@ function Home() {
     setFilterList(filteredValues);
   };
 
-  // useEffect(() => {
-  //   console.log("array", neUser);
-  //   console.log("home-state", users);
-  // }, []);
-
   const deleteUserAccount = async (id) => {
     const res = await dispatch(deleteUser(id));
     if (res.delete) {
